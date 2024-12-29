@@ -52,7 +52,6 @@ private fun increaseScore() {
 
 private fun initialScoreUI() {
     loadScore()
-    println("score is $score")
     updateScoreUI(didWithAnimation = false)
 }
 
@@ -77,7 +76,6 @@ private fun saveScore() {
 }
 
 private fun loadScore() {
-    println("begin load encoded")
     val encoded =
         localStorage["popcattino_score"] ?: run {
             score = 0
