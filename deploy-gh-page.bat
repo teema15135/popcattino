@@ -1,0 +1,1 @@
+gradle clean build copyDistDir && git add dist && git commit -m "Update dist" && git subtree push --prefix dist origin gh-page
