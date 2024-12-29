@@ -1,0 +1,94 @@
+@font-face {
+    font-family: 'BakeSoda';
+    src: url('Bake Soda.otf') format('opentype');
+}
+body {
+    font-family: 'BakeSoda', Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100dvw;
+    height: 100dvh;
+    margin: 0;
+    background-color: #f8f9fa;
+    overflow: hidden;
+}
+
+div#app {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    background-image: url("background.png");
+    pointer-events: none;
+}
+
+div#title-frame {
+    display: flex;
+    flex-direction: column;
+    padding-top: 5rem;
+    align-items: center;
+    pointer-events: none;
+}
+
+div#image-frame {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    pointer-events: none;
+}
+img#image {
+    width: auto;
+    height: 100%;
+    cursor: pointer;
+    pointer-events: none;
+}
+
+#title {
+    font-size: 5rem;
+    margin: 0 0 2rem 0;
+}
+
+#score {
+    font-size: 4rem;
+    margin: 0;
+}
+
+#title, #score {
+    color: white;
+    -webkit-text-stroke: 2px black;
+    text-stroke: 2px black;
+    pointer-events: none;
+}
+
+/* Score Animation */
+
+.pop-out-leave {
+    display: none;
+}
+
+.pop-out-enter-active {
+    transition: transform 80ms ease-in-out;
+}
+
+.pop-out-enter.rot-ll {
+    transform: scale(1.1) rotate(-10deg);
+}
+
+.pop-out-enter.rot-l {
+    transform: scale(1.1) rotate(-5deg);
+}
+
+.pop-out-enter.rot-c {
+    transform: scale(1.1) rotate(0deg);
+}
+
+.pop-out-enter.rot-r {
+    transform: scale(1.1) rotate(5deg);
+}
+
+.pop-out-enter.rot-rr {
+    transform: scale(1.1) rotate(10deg);
+}
