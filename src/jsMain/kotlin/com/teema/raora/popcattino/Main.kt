@@ -4,7 +4,6 @@ import kotlinx.browser.document
 import kotlinx.browser.localStorage
 import kotlinx.browser.window
 import org.w3c.dom.HTMLAudioElement
-import org.w3c.dom.HTMLDivElement
 import org.w3c.dom.HTMLElement
 import org.w3c.dom.HTMLHeadingElement
 import org.w3c.dom.HTMLImageElement
@@ -19,30 +18,49 @@ const val VERSION = "1"
 
 var score = 0
 
+val body: HTMLElement? get() = document.body
+val imageClose: HTMLImageElement get() = id("image-close")
+val imageOpen: HTMLImageElement get() = id("image-open")
+val headingScore: HTMLHeadingElement get() = id("score")
+
 fun main() {
     localStorage["popcattino_version"] = VERSION
 
     initialScoreUI()
 
-    val app = document.getElementById("app") as HTMLDivElement
-    val image = document.getElementById("image") as HTMLImageElement
-    val sound = document.getElementById("pop-sound") as HTMLAudioElement
-
-    document.body?.addEventListener("mousedown") {
-        image.src = "pop-open.png"
-        sound.currentTime = 0.0
-        sound.play()
-
-        increaseScore()
+    body?.addEventListener("mousedown") {
+        onKeyDown()
     }
 
-    document.body?.addEventListener("mouseup") {
-        image.src = "pop-close.png"
+    body?.addEventListener("mouseup") {
+        onKeyUp()
     }
 
     window.setInterval({
         saveScore()
     }, 2000)
+}
+
+private fun onKeyDown() {
+    val sound = id<HTMLAudioElement>("pop-sound")
+    open()
+    sound.currentTime = 0.0
+    sound.play()
+    increaseScore()
+}
+
+private fun onKeyUp() {
+    close()
+}
+
+private fun open() {
+    imageOpen.show()
+    imageClose.hide()
+}
+
+private fun close() {
+    imageClose.show()
+    imageOpen.hide()
 }
 
 private fun increaseScore() {
@@ -56,19 +74,11 @@ private fun initialScoreUI() {
 }
 
 private fun updateScoreUI(didWithAnimation: Boolean = true) {
-    val scoreHeadingText = document.getElementById("score") as HTMLHeadingElement
-    scoreHeadingText.innerText = score.toString()
+    headingScore.innerText = score.toString()
 
     if (!didWithAnimation) return
 
-    val rotations = listOf("rot-ll", "rot-l", "rot-c", "rot-r", "rot-rr")
-    val randomRotation = rotations[Random.nextInt(rotations.size)]
-
-    scoreHeadingText.classList.add("pop-out-enter-active", "pop-out-enter", randomRotation)
-
-    window.setTimeout({
-        scoreHeadingText.classList.remove("pop-out-enter-active", "pop-out-enter", randomRotation)
-    }, 80)
+    playScoreBounceAnimation()
 }
 
 private fun saveScore() {
@@ -93,6 +103,30 @@ private fun loadScore() {
             }
 
     score = decodedScore
+}
+
+private fun playScoreBounceAnimation() {
+    val rotations = listOf("rot-ll", "rot-l", "rot-c", "rot-r", "rot-rr")
+    val randomRotation = rotations[Random.nextInt(rotations.size)]
+
+    headingScore.classList.add("pop-out-enter-active", "pop-out-enter", randomRotation)
+
+    window.setTimeout({
+        headingScore.classList.remove("pop-out-enter-active", "pop-out-enter", randomRotation)
+    }, 80)
+}
+
+@Suppress("NOTHING_TO_INLINE", "UNCHECKED_CAST")
+private inline fun <T> id(id: String): T = document.getElementById(id) as T
+
+private inline fun HTMLElement.show() {
+    classList.add("show")
+    classList.remove("hide")
+}
+
+private inline fun HTMLElement.hide() {
+    classList.add("hide")
+    classList.remove("show")
 }
 
 private inline fun HTMLElement.addEventListener(
