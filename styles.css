@@ -33,13 +33,39 @@ div#title-frame {
     pointer-events: none;
 }
 
+div#title-frame>h1 {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+
+    pointer-events: none;
+}
+
+div#title-frame>h3 {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+
+    pointer-events: none;
+}
+
 div#image-frame {
     display: flex;
     flex-direction: column;
+    align-items: center;
+    position: relative;
     height: 100%;
     pointer-events: none;
 }
-img#image {
+div#image-frame>img {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+
+    position: absolute;
     width: auto;
     height: 100%;
     cursor: pointer;
@@ -91,4 +117,11 @@ img#image {
 
 .pop-out-enter.rot-rr {
     transform: scale(1.1) rotate(10deg);
+}
+
+.show {
+    opacity: 1;
+}
+.hide {
+    opacity: 0;
 }
